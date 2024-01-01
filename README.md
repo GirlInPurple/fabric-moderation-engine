@@ -34,11 +34,13 @@ First, you need to know the difference between these three:
   - [ ] `tempban`; An alternate `ban` that is on a timer, allowing for temporary bans
   - [ ] `tempban-ip`; An alternate `ban-ip` that is on a timer, allowing for temporary bans
   - [ ] `whois`; gives the uuid, ip, online/offline status, when the account was created, etc. To be used to filter out unwanted players.
+  - [ ] `jail`; \<please expand\>
+  - [ ] `freeze`; \<please expand\>
 - [ ] Some kind of anti-grief system
-  - [ ] Option to completely disable TNT, TNT Minecarts, End Crystals, Respawn Anchors, Beds, and Lava Buckets
-  - [ ] Add a whitelist system for the items above to be used in certain places (TNT based farms, beds for netherite mining, respawn anchors in the nether, etc)
-  - [ ] Liquids won't flow or create blocks when touching another liquid within certain areas
-- [ ] Add highly customizable configs for everything here
+  - [ ] Options to completely disable explosives and Lava Buckets
+  - [ ] Add a whitelist system for the items above to be used in certain places (TNT based farms, beds for netherite mining, respawn anchors in the nether, etc.)
+  - [ ] Liquids won't flow or interact with other things within certain areas
+- [ ] Add highly customizable configs for everything above
 
 ## Contributing
 
