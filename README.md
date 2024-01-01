@@ -43,7 +43,7 @@ First, you need to know the difference between these four things:
   - [ ] `tempban`; An alternate `ban` that is on a timer, allowing for temporary bans
   - [ ] `tempban-ip`; An alternate `ban-ip` that is on a timer, allowing for temporary bans
   <!-- Maybe use this format: "6w5d4h3m2s1t"? -->
-    - [ ] Allow specific IP address ranges (e.g. "13.37.*.*")?
+    - [ ] Allow specific IP address ranges (e.g. "13.37.\*.\*")?
   - [ ] `whois`; gives the UUID, IP, online/offline status, when the account was created, other playerdata, etc. To be used to filter out unwanted players.
   - [ ] `jail`; \<please expand\> Teleports the player to a set place, restricting certain actions (e.g. build, opening chests, etc.) <!-- imo this should not block movement -->
   - [ ] `freeze`; \<please expand\> Completely freezes the player (movements, inventory interactions, etc.), good for trolling flyhackers :)
