@@ -1,21 +1,27 @@
 package xyz.blurple.fme;
 
 import com.google.gson.JsonObject;
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.DedicatedServerModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.minecraft.entity.Entity;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.blurple.fme.areas.ListedArea;
+import xyz.blurple.fme.files.DatabaseSchema;
+import xyz.blurple.fme.files.DatabaseSchema.HistorySchema;
+import xyz.blurple.fme.files.ListedArea;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static xyz.blurple.fme.CommandRegister.initCommands;
-import static xyz.blurple.fme.areas.ListedUtils.ParseJson;
+import static xyz.blurple.fme.files.DatabaseAccess.getPlayerDatabase;
 import static xyz.blurple.fme.files.FileHandler.Config.CheckFiles;
 import static xyz.blurple.fme.files.FileHandler.JSON.readJSON;
-public class FMEInit implements ModInitializer {
+import static xyz.blurple.fme.files.ListedUtils.ParseJson;
+public class FMEInit implements DedicatedServerModInitializer {
 	public static final String MODID = "fme";
 	public static final String VERSION = "1.0.0";
 	private static final String LICENSE = "CC0-1.0";
@@ -23,34 +29,69 @@ public class FMEInit implements ModInitializer {
 	private static final String UPDATEMODRINTH = "UPDATE CHECKER NOT IMPLEMENTED";
 	private static final String SPLASHTEXT = "SPLASH TEXT NOT IMPLEMENTED";
 	public static List<ListedArea> ListedAreaList;
-	public static JsonObject PlayerDatabase;
+	public static HashMap<UUID, DatabaseSchema> PlayerDatabase;
 	public static JsonObject ModConfigs;
 
 	@Override
-	public void onInitialize() {
+	public void onInitializeServer() {
+
+		LOGGER.info("  ______ __  __ ______    | Fabric Moderation Engine V"+VERSION);
+		LOGGER.info(" |  ____|  \\/  |  ____|   | "+SPLASHTEXT);
+		LOGGER.info(" | |__  | \\  / | |__      | "+LICENSE+" Licensed");
+		LOGGER.info(" |  __| | |\\/| |  __|     | By FME Contributors");
+		LOGGER.info(" | |    | |  | | |____    | Thanks to the EssentialsX and LuckPerms Teams");
+		LOGGER.info(" |_|    |_|  |_|______|   | "+UPDATEMODRINTH);
 
 		initCommands();
-		LOGGER.info("CommandRegister Registered");
+		LOGGER.info("Commands Registered");
 
 		CheckFiles();
-		LOGGER.info("Files Registered");
+		LOGGER.info("Files Checked");
 
-		PlayerDatabase = readJSON(Path.of("./config/FME/fme-db.json"));
+		try {PlayerDatabase = getPlayerDatabase();}
+		catch (Exception e) {throw new RuntimeException(e);}
 		ModConfigs = readJSON(Path.of("./config/FME/fme-config.json"));
 		try {ListedAreaList = ParseJson(Path.of("./config/FME/fme-areas.json"));}
 		catch (IOException e) {throw new RuntimeException(e);}
-		LOGGER.info("Database and Configs Registered");
+		LOGGER.info("Database and Configs Loaded");
 
-		LOGGER.info("  ______ __  __ ______    | Fabric Moderation Engine V"+VERSION);
-		LOGGER.info(" |  ____|  \\/  |  ____|   |"+SPLASHTEXT);
-		LOGGER.info(" | |__  | \\  / | |__      | "+LICENSE+" Licensed");
-		LOGGER.info(" |  __| | |\\/| |  __|     | By FME Contributors");
-		LOGGER.info(" | |    | |  | | |____    | Thanks to the EssentialsX Team");
-		LOGGER.info(" |_|    |_|  |_|______|   | "+UPDATEMODRINTH);
+		ServerEntityEvents.ENTITY_LOAD.register(this::onPlayerJoin);
+	}
+
+	private void onPlayerJoin(Entity entity, ServerWorld serverWorld) {
+		if (!(entity instanceof ServerPlayerEntity)) {return;}
+		if (!(PlayerDatabase.containsKey(entity.getUuid()))) {return;}
+		// Past this point, you should assume it's a new player.
+
+		PlayerDatabase.put(
+			entity.getUuid(),
+			new DatabaseSchema(
+				new ArrayList<>(),
+				new ArrayList<>(),
+				new HistorySchema(
+					new ArrayList<>(),
+					new ArrayList<>(),
+					new ArrayList<>()
+				)
+			)
+		);
 	}
 
 	public static long UnixTimestamp() {
 		Date date = new Date();
 		return date.getTime() / 1000L;
 	}
+
+	public static String stylizedInt(int input) {
+		String string = Integer.toString(input);
+		char lastChar = string.charAt(string.length() - 1);
+
+		return switch (lastChar) {
+			case '1' -> string + (string.endsWith("11") ? "th" : "st");
+			case '2' -> string + (string.endsWith("12") ? "th" : "nd");
+			case '3' -> string + (string.endsWith("13") ? "th" : "rd");
+			default -> string + "th";
+		};
+	}
+
 }

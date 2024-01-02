@@ -1,36 +1,29 @@
 package xyz.blurple.fme.files;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.command.ServerCommandSource;
-
 import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class DatabaseSchema {
-    UUID PlayerUUID;
-    List<WarnSchema> Warns;
-    List<BanSchema> Bans;
-    List<HistorySchema> History;
+    List<OffenceSchema> Warns;
+    List<OffenceSchema> Bans;
+    HistorySchema History;
 
-    public DatabaseSchema(PlayerEntity player) {
-        this.PlayerUUID = player.getUuid();
-        this.Warns = new ArrayList<WarnSchema>();
-        this.Bans = new ArrayList<BanSchema>();
-        this.History = new ArrayList<HistorySchema>();
+    public DatabaseSchema(List<OffenceSchema> warns, List<OffenceSchema> bans, HistorySchema history) {
+        this.Warns = warns;
+        this.Bans = bans;
+        this.History = history;
     }
 
-    public abstract class OffenceSchema {
+    public static class OffenceSchema {
         UUID Caller;
         String Reason;
         long Duration;
         long Timestamp;
         boolean Resolved;
 
-        public OffenceSchema(ServerCommandSource context, String reason, long duration, long timestamp) {
-            if (context.getPlayer() != null) {this.Caller = context.getPlayer().getUuid();}
-            else {this.Caller = null;}
+        public OffenceSchema(UUID caller, String reason, long duration, long timestamp, boolean resolved) {
+            this.Caller = caller;
 
             if (reason != null) {this.Reason = reason;}
             else {this.Reason = "No Reason Given";}
@@ -40,36 +33,24 @@ public class DatabaseSchema {
 
             this.Timestamp = timestamp;
 
-            this.Resolved = false;
+            this.Resolved = resolved;
         }
     }
 
-    public class WarnSchema extends OffenceSchema {
-        public WarnSchema(ServerCommandSource context, String reason, long duration, long timestamp) {
-            super(context, reason, duration, timestamp);
-        }
-    }
-
-    public class BanSchema extends OffenceSchema {
-        public BanSchema(ServerCommandSource context, String reason, long duration, long timestamp) {
-            super(context, reason, duration, timestamp);
-        }
-    }
-
-    public class HistorySchema {
+    public static class HistorySchema {
         List<LogginIPs> Logins;
         List<String> Username;
-        List<AntiCheatFlags> AntiCheatFlags;
+        List<OffenceSchema> AntiCheatFlags;
         boolean IsOnline;
 
-        public HistorySchema(PlayerEntity player) {
-            this.Logins = new ArrayList<LogginIPs>();
-            this.Username = new ArrayList<String>();
-            this.AntiCheatFlags = new ArrayList<AntiCheatFlags>();
-            this.IsOnline = true;
+        public HistorySchema(List<LogginIPs> IPs, List<String> usernames, List<OffenceSchema> antiCheatFlags) {
+            this.Logins = IPs;
+            this.Username = usernames;
+            this.AntiCheatFlags = antiCheatFlags;
+            this.IsOnline = false; // Assuming this is run as the server starts, this should always be false
         }
 
-        public class LogginIPs {
+        public static class LogginIPs {
             InetAddress IPAddress;
             Long Timestamp;
 
@@ -80,14 +61,6 @@ public class DatabaseSchema {
                 this.IPAddress = IP;
                 this.Timestamp = Timestamp;
             }
-        }
-    }
-
-    public class AntiCheatFlags extends OffenceSchema {
-        @Deprecated
-        boolean Resolved;
-        public AntiCheatFlags(ServerCommandSource context, String reason, long duration, long timestamp) {
-            super(context, reason, duration, timestamp);
         }
     }
 }

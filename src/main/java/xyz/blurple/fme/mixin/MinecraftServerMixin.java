@@ -5,12 +5,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.blurple.fme.files.FileHandler.*;
+import xyz.blurple.fme.files.FileHandler.JSON;
 
 import java.nio.file.Path;
 
 import static xyz.blurple.fme.FMEInit.ModConfigs;
-import static xyz.blurple.fme.FMEInit.PlayerDatabase;
+import static xyz.blurple.fme.files.DatabaseAccess.putPlayerDatabase;
 
 @Mixin(MinecraftServer.class)
 public class MinecraftServerMixin {
@@ -20,6 +20,6 @@ public class MinecraftServerMixin {
     @Inject(at = @At("HEAD"), method = "save")
     private void saveMixin(boolean suppressLogs, boolean flush, boolean force, CallbackInfoReturnable<Boolean> cir) {
         JSON.writeJSON(ModConfigs, Path.of("./config/FME/fme-config.json"));
-        JSON.writeJSON(PlayerDatabase, Path.of("./config/FME/fme-db.json"));
+        JSON.writeJSON(putPlayerDatabase(), Path.of("./config/FME/fme-db.json"));
     }
 }

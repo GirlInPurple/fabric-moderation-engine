@@ -15,7 +15,7 @@
 	"icon": "assets/fme/icon.png",
 	"environment": "server",
 	"entrypoints": {
-		"main": [
+		"server": [
           "xyz.blurple.fme.FMEInit"
 		]
 	},

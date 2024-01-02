@@ -13,10 +13,17 @@ base {
 repositories {
 	// https://docs.gradle.org/current/userguide/declaring_repositories.html
 	mavenCentral()
+	/*
+	FLAN
 	maven {
 		name = "Flemmli97"
 		url "https://gitlab.com/api/v4/projects/21830712/packages/maven"
 	}
+	Player Events API
+	maven {
+		url 'https://maven.bymartrixx.me'
+	}
+	 */
 }
 
 loom {
@@ -36,9 +43,12 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}" // Fabric API
-	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}" // Deprecated Fabric API
+	//modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}" // Deprecated Fabric API
 	modIncludeImplementation "net.luckperms:api:${luckperms_api_version}" // Luckperms https://luckperms.net/wiki/Developer-API
-	// maven package is broken compileOnly "io.github.flemmli97:flan:${minecraft_version}-${flan_api_version}-fabric-api" // Flan https://github.com/Flemmli97/Flan
+	// requests an older/incorrect version of fabric api, "1.20.2-1.8.11-fabric-api"
+	//compileOnly "io.github.flemmli97:flan:${minecraft_version}-${flan_api_version}-fabric-api" // Flan https://github.com/Flemmli97/Flan
+	// DNS error, I think the site is down
+	//modImplementation "me.bymartrixx.player-events:api:${player_events_api_version}" // Player Events API https://github.com/IotaBread/player-events
 }
 
 processResources {

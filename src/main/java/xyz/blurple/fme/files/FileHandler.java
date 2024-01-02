@@ -1,8 +1,6 @@
 package xyz.blurple.fme.files;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import net.minecraft.util.CsvWriter;
 import xyz.blurple.fme.FMEInit;
@@ -14,6 +12,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class FileHandler {
 
@@ -93,11 +92,26 @@ public class FileHandler {
         public static JsonObject readJSON(Path filepath) {
             try {
                 Gson gson = new Gson();
-                Type type = new TypeToken<List<String>>(){}.getType();
-                return gson.fromJson(new FileReader(filepath.toFile()), type);
+                Type type = new TypeToken<Map<String, Object>>(){}.getType();
+                Map<String, Object> map = gson.fromJson(new FileReader(filepath.toFile()), type);
+                return JsonParser.parseString(map.toString()).getAsJsonObject();
             } catch (Exception e) {
                 e.printStackTrace();
                 return new JsonObject();
+            }
+        }
+
+        public static JsonArray modifiedReadJSON(Path path) throws IOException {
+            String content = Files.readString(path);
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(content);
+
+            if (element.isJsonObject()) {
+                JsonArray array = new JsonArray();
+                array.add(element);
+                return array;
+            } else {
+                return element.getAsJsonArray();
             }
         }
 

@@ -1,4 +1,4 @@
-package xyz.blurple.fme.areas;
+package xyz.blurple.fme.files;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -23,7 +23,7 @@ public class ListedUtils {
 
     public static boolean isInsideArea(Object self, World world) {
         if (!(self instanceof TntEntity) && !(self instanceof TntMinecartEntity) && !(self instanceof EndCrystalEntity)) {return false;}
-        for (xyz.blurple.fme.areas.ListedArea ListedArea : ListedAreaList) {
+        for (xyz.blurple.fme.files.ListedArea ListedArea : ListedAreaList) {
             Box EntitySearchBox = new Box(ListedArea.getListingPosition()).expand(ListedArea.getListingRadius());
             if (world.getEntitiesByClass(TntEntity.class, EntitySearchBox, tntEntity -> true).contains(self)) {return true;}
             if (world.getEntitiesByClass(TntMinecartEntity.class, EntitySearchBox, tntMinecartEntity -> true).contains(self)) {return true;}
@@ -53,7 +53,7 @@ public class ListedUtils {
         return ParserListedArea;
     }
 
-    private static ListingConfigs ParseAreaConfigs(JsonObject AreaConfigs) {
+    private static ListedArea.ListingConfigs ParseAreaConfigs(JsonObject AreaConfigs) {
         boolean logActions;
         boolean explosivesExplode;
         boolean liquidsInteractions;
@@ -64,6 +64,6 @@ public class ListedUtils {
         try {liquidsInteractions = AreaConfigs.get("liquidsInteractions").getAsBoolean();} catch (Exception ignored) {liquidsInteractions = true;}
         try {playersInteractions = AreaConfigs.get("playersInteractions").getAsInt();} catch (Exception ignored) {playersInteractions = 0;}
         try {mobInteractions = AreaConfigs.get("mobInteractions").getAsBoolean();} catch (Exception ignored) {mobInteractions = true;}
-        return new ListingConfigs(logActions, explosivesExplode, liquidsInteractions, playersInteractions, mobInteractions);
+        return new ListedArea.ListingConfigs(logActions, explosivesExplode, liquidsInteractions, playersInteractions, mobInteractions);
     }
 }

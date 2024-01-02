@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static xyz.blurple.fme.areas.ListedUtils.isInsideArea;
+import static xyz.blurple.fme.files.ListedUtils.isInsideArea;
 
 @Mixin(Entity.class)
 public abstract class AbstractEntityMixin implements Nameable, EntityLike, CommandOutput {
