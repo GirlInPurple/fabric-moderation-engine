@@ -1,4 +1,4 @@
-package xyz.blurple.fme;
+package xyz.blurple.fme.compat;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;

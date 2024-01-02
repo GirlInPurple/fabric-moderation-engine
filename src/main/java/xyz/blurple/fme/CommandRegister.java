@@ -9,23 +9,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import static xyz.blurple.fme.compat.LuckpermsApi.isAdmin;
+import static xyz.blurple.fme.events.WarnBanMethods.warnPlayer;
 
-import static xyz.blurple.fme.LuckpermsApi.isAdmin;
-
-public class Commands {
-
-    public static final List<String> ListingTypes = new ArrayList<>(
-            Arrays.asList(
-                    "Whitelist",
-                    "Graylist",
-                    "Blacklist",
-                    "Vantalist"
-            )
-    );
-
+public class CommandRegister {
     public static void initCommands() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) -> {
             dispatcher.register(CommandManager.literal("warn")
@@ -34,14 +21,19 @@ public class Commands {
                         .executes(context -> {
                             ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");
                             String reason = StringArgumentType.getString(context, "reason");
+                            String sending;
                             try {
-                                context.getSource().sendMessage(Text.literal("Warned " + player.getEntityName() + " for reason: \"" + reason + "\""));
-                                FMEInit.LOGGER.info("Warned " + player.getEntityName() + " for reason: \"" + reason + "\"");
+                                int AmountOfWarns = warnPlayer();
+                                sending = "Warned " + player.getEntityName() + " for reason: \"" + reason + "\". This is their "+AmountOfWarns;
+                                context.getSource().sendMessage(Text.literal(sending));
+                                FMEInit.LOGGER.info(sending);
                                 return 1;
                             } catch (Exception e) {
-                                FMEInit.LOGGER.info("Error while trying to warn player: "+e.getMessage());
+                                sending = "Error while trying to warn"+player+": "+e.getMessage();
+                                context.getSource().sendMessage(Text.literal(sending));
+                                FMEInit.LOGGER.info(sending);
                                 e.printStackTrace();
-                                return 0;
+                                return 1;
                             }
                         })
                     )
