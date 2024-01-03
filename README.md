@@ -8,15 +8,15 @@ Its also meant to be compatible with as many mods as **_reasonably_** possible, 
 ## Tutorials
 
 ### Install and Setup
-It should be noted this mod only works on dedicated servers. Do not install this on your client.
+It should be noted this mod only works on dedicated servers. This is **not** a client mod, do not install this on your client.
 - Download the mod from the [releases](https://github.com/GirlInPurple/fabric-moderation-engine/releases) page, in the future it you can download it from Modrinth.
 - Download a copy of [LuckPerms](https://luckperms.net/) as well, as it is a required dependency.
 - Copy the files to the server's `mods` folder, then restart the server if needed.
 - TODO: Finish this section
 
 ### Building
-Just clone to project into whatever empty directory you like and run `./gradlew build`\
-Requires at minimum Java 17
+Just clone the project with the clone button on top (and extract the zip) into whatever empty directory you like and run `./gradlew build` if you're on Linux. For Windows systems, open Command Prompt (CD into the directory if necessary) and type `gradlew.bat build`\
+**Java 17** or later is required for the building process.
 
 ### White, Gray, Blacklisting and Vantalisting
 
@@ -31,8 +31,8 @@ First, you need to know the difference between these four things:
 **We are no longer taking feature requests, this is already alot to program considering we are a 2-person team. If you suggest features they will not be added until all of the features below have been added first.**
 - [ ] Finish README.md, CONTRIBUTING.md, and DOCS.md
 - [ ] Post to Modrinth
-  - [ ] Add a Modrinth update notification on startup
-- [ ] Compatibility with other mods
+  - [ ] Update checker (adds a Modrinth update notification on startup)
+- [ ] Incorporate with other mods
   - [ ] [Bluemap](https://modrinth.com/plugin/bluemap)/[Dynmap](https://modrinth.com/plugin/dynmap)/[Squaremap](https://modrinth.com/plugin/squaremap) for showing whitelisted/blacklisted areas
   - [ ] [FLan](https://modrinth.com/mod/flan) for easier and more configs for certain areas
   - [ ] Any mod that adds a liquid ([Create](https://modrinth.com/mod/create)'s Honey and [Chocolate](https://www.curseforge.com/minecraft/mc-mods/create-confectionery) come to mind) will follow the same rules as water and alava entering a blacklisted area
@@ -53,17 +53,17 @@ First, you need to know the difference between these four things:
   - [ ] Options to completely disable explosives and Lava Buckets
   - [ ] Add a whitelist system for the items above to be used in certain places (TNT based farms, beds for netherite mining, respawn anchors in the nether, etc.)
   - [ ] Liquids won't flow or interact with other things within certain areas
-- [ ] Anti-Cheat
+- [ ] Anti-Cheat (complex)
   - [ ] Better "Flying is not enabled on this server." checks
   - [ ] Simple packet exploit patches
-  - [ ] Strict caps for entity speed, and forces boats to fall to the floor
+  - [ ] Strict caps for entity speed (including velocity/acceleration), and forces boats to fall to the floor
   - [ ] Mining speed and Kill Aura detection
-  - [ ] Disables Auto-Totem
+  - [ ] (An attempt at) Preventing Auto-Totem
 - [ ] Add highly customizable configs for everything mentioned above.
 - [ ] Datapack support for certain events, like if a player is warned or if a hack was detected
 
 ### Future Features
-**Newly suggested features will go here**
+**Newly suggested features will go here. Probably not now.**
 
 ## Contributing
 
