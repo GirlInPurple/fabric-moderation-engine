@@ -15,7 +15,7 @@ It should be noted this mod only works on dedicated servers. This is **not** a c
 - TODO: Finish this section
 
 ### Building
-Just clone the project with the clone button on top (and extract the zip) into whatever empty directory you like and run `./gradlew build` if you're on Linux. For Windows systems, open Command Prompt (CD into the directory if necessary) and type `gradlew.bat build`.
+Just clone the project with the clone button on top (and extract the zip) into whatever empty directory you like and run `./gradlew build` if you're on Linux. For Windows systems, open Command Prompt (CD into the directory if necessary) and type `gradlew.bat build`. <br>
 **Java 17** or later is required for the building process.
 
 ### White, Gray, Blacklisting and Vantalisting
