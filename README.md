@@ -15,7 +15,7 @@ It should be noted this mod only works on dedicated servers. This is **not** a c
 - TODO: Finish this section
 
 ### Building
-Just clone the project with the clone button on top (and extract the zip) into whatever empty directory you like and run `./gradlew build` if you're on Linux. For Windows systems, open Command Prompt (CD into the directory if necessary) and type `gradlew.bat build`\
+Just clone the project with the clone button on top (and extract the zip) into whatever empty directory you like and run `./gradlew build` if you're on Linux. For Windows systems, open Command Prompt (CD into the directory if necessary) and type `gradlew.bat build`.\ <!-- may I ask what's the backslash for? -->
 **Java 17** or later is required for the building process.
 
 ### White, Gray, Blacklisting and Vantalisting
@@ -32,10 +32,10 @@ First, you need to know the difference between these four things:
 - [ ] Finish README.md, CONTRIBUTING.md, and DOCS.md
 - [ ] Post to Modrinth
   - [ ] Update checker (adds a Modrinth update notification on startup)
-- [ ] Incorporate with other mods
+- [ ] Incorporation with other mods
   - [ ] [Bluemap](https://modrinth.com/plugin/bluemap)/[Dynmap](https://modrinth.com/plugin/dynmap)/[Squaremap](https://modrinth.com/plugin/squaremap) for showing whitelisted/blacklisted areas
   - [ ] [FLan](https://modrinth.com/mod/flan) for easier and more configs for certain areas
-  - [ ] Any mod that adds a liquid ([Create](https://modrinth.com/mod/create)'s Honey and [Chocolate](https://www.curseforge.com/minecraft/mc-mods/create-confectionery) come to mind) will follow the same rules as water and alava entering a blacklisted area
+  - [ ] Any mod that adds a liquid ([Create](https://modrinth.com/mod/create)'s Honey and [Chocolate](https://www.curseforge.com/minecraft/mc-mods/create-confectionery) come to mind) will follow the same rules as water and lava entering a blacklisted area
   - [ ] [LuckPerms](https://luckperms.net/) support/integration for commands and ability for certain groups to place blocks inside blacklisted areas
 - [ ] Add commands
   - [ ] `warn`; Warns the player, can be set up to run automatically on certain events. An optional timer value for temporary warns
@@ -44,8 +44,8 @@ First, you need to know the difference between these four things:
   - [ ] `tempban`; An alternate `ban` that is on a timer, allowing for temporary bans
   - [ ] `tempban-ip`; An alternate `ban-ip` that is on a timer, allowing for temporary bans
     - [ ] It should be noted that `pardon` and `pardon-ip` work on these commands as well
-    - [ ] The "method" argument on `ban`, `tempban`, and their IP equivilants is for if you want to hide that fact that you're banning a player. This allows you the option of either crashing their game or kicking them from the server through an error instead of a "You're Banned!" message.
-  - [ ] `whois`; gives the UUID, IP, online/offline status, when the account was created, other playerdata, etc. To be used to filter out unwanted players.
+    - [ ] The "method" argument on `ban`, `tempban`, and their IP equivilants is for if you want to hide that fact that you're banning a player. This allows you the option of either crashing their game or kicking them from the server through a fake error instead of a "Banned by an operator" message.
+  - [ ] `whois`; gives information about a player such as UUID, IP, online/offline status, when the account was created, other playerdata, etc. To be used to filter out unwanted players.
     - [ ] `whois history`; gives historical data about the player, like IP, last played, first joined, etc.
   - [ ] `jail`; Teleports the player to a set place, restricting certain actions (e.g. build, opening chests, etc.)
   - [ ] `freeze`; Completely freezes the player (movements, inventory interactions, etc.), good for trolling flyhackers :)
@@ -67,9 +67,9 @@ First, you need to know the difference between these four things:
 
 ## Contributing
 
-See CONTRIBUTING.md (TODO)
+See [CONTRIBUTING.md](/.github/CONTRIBUTING.md) (TODO)
 
-## Contributors
+## Credits and Attributions
 
 Thank you to the following:
 - [LuckPerms](https://luckperms.net/) for their Permissions API
