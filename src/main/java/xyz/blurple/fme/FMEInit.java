@@ -10,13 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.blurple.fme.files.DatabaseSchema;
 import xyz.blurple.fme.files.DatabaseSchema.HistorySchema;
+import xyz.blurple.fme.files.DatabaseSchema.HistorySchema.LogginIPs;
+import xyz.blurple.fme.files.DatabaseSchema.OffenceSchema;
 import xyz.blurple.fme.files.ListedArea;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 
-import static xyz.blurple.fme.CommandRegister.initCommands;
+import static xyz.blurple.fme.commands.AdminCallCommand.registerAdminCall;
+import static xyz.blurple.fme.commands.WarnCommand.registerWarn;
 import static xyz.blurple.fme.files.DatabaseAccess.getPlayerDatabase;
 import static xyz.blurple.fme.files.FileHandler.Config.CheckFiles;
 import static xyz.blurple.fme.files.FileHandler.JSON.readJSON;
@@ -35,14 +38,18 @@ public class FMEInit implements DedicatedServerModInitializer {
 	@Override
 	public void onInitializeServer() {
 
-		LOGGER.info("  ______ __  __ ______    | Fabric Moderation Engine V"+VERSION);
-		LOGGER.info(" |  ____|  \\/  |  ____|   | "+SPLASHTEXT);
-		LOGGER.info(" | |__  | \\  / | |__      | "+LICENSE+" Licensed");
-		LOGGER.info(" |  __| | |\\/| |  __|     | By FME Contributors");
-		LOGGER.info(" | |    | |  | | |____    | Thanks to the EssentialsX and LuckPerms Teams");
-		LOGGER.info(" |_|    |_|  |_|______|   | "+UPDATEMODRINTH);
+		LOGGER.info("  ______ __  __ ______   |  Fabric Moderation Engine V"+VERSION);
+		LOGGER.info(" |  ____|  \\/  |  ____|  |  "+SPLASHTEXT);
+		LOGGER.info(" | |__  | \\  / | |__     |  "+LICENSE+" Licensed");
+		LOGGER.info(" |  __| | |\\/| |  __|    |  By FME Contributors");
+		LOGGER.info(" | |    | |  | | |____   |  Thanks to the EssentialsX and LuckPerms Teams");
+		LOGGER.info(" |_|    |_|  |_|______|  |  "+UPDATEMODRINTH);
 
-		initCommands();
+		ModConfigs = readJSON(Path.of("./config/FME/fme-config.json"));
+		LOGGER.info("Config Loaded");
+
+		registerAdminCall();
+		registerWarn();
 		LOGGER.info("Commands Registered");
 
 		CheckFiles();
@@ -50,31 +57,75 @@ public class FMEInit implements DedicatedServerModInitializer {
 
 		try {PlayerDatabase = getPlayerDatabase();}
 		catch (Exception e) {throw new RuntimeException(e);}
-		ModConfigs = readJSON(Path.of("./config/FME/fme-config.json"));
 		try {ListedAreaList = ParseJson(Path.of("./config/FME/fme-areas.json"));}
 		catch (IOException e) {throw new RuntimeException(e);}
-		LOGGER.info("Database and Configs Loaded");
+		LOGGER.info("Database Loaded");
 
 		ServerEntityEvents.ENTITY_LOAD.register(this::onPlayerJoin);
+		LOGGER.info("Event Trackers Started");
+
+		LOGGER.info("FME has finished loading!");
 	}
 
 	private void onPlayerJoin(Entity entity, ServerWorld serverWorld) {
 		if (!(entity instanceof ServerPlayerEntity)) {return;}
-		if (!(PlayerDatabase.containsKey(entity.getUuid()))) {return;}
-		// Past this point, you should assume it's a new player.
+		if (PlayerDatabase.containsKey(entity.getUuid())) {
+			// Past this point you should assume it's a returning player.
+			LOGGER.info(entity.getEntityName() + " is a returning player. Refreshing database...");
 
-		PlayerDatabase.put(
-			entity.getUuid(),
-			new DatabaseSchema(
-				new ArrayList<>(),
-				new ArrayList<>(),
-				new HistorySchema(
-					new ArrayList<>(),
-					new ArrayList<>(),
-					new ArrayList<>()
+			List<OffenceSchema> Warns = PlayerDatabase.get(entity.getUuid()).getWarns();
+			List<OffenceSchema> Bans = PlayerDatabase.get(entity.getUuid()).getBans();
+
+			List<LogginIPs> LoginList = PlayerDatabase.get(entity.getUuid()).getHistory().getLogins();
+			if (!PlayerDatabase.get(entity.getUuid()).getHistory().doesLogginsContain(((ServerPlayerEntity) entity).getIp())) {LoginList.add(new LogginIPs(((ServerPlayerEntity) entity).getIp(), UnixTimestamp()));}
+
+			List<String> UsernameList = PlayerDatabase.get(entity.getUuid()).getHistory().getUsername();
+			if (!PlayerDatabase.get(entity.getUuid()).getHistory().doesUsernamesContain(entity.getEntityName())) {UsernameList.add(entity.getEntityName());}
+
+			List<OffenceSchema> AntiCheatFlags = PlayerDatabase.get(entity.getUuid()).getHistory().getAntiCheatFlags();
+
+			PlayerDatabase.remove(entity.getUuid());
+			PlayerDatabase.put(
+				entity.getUuid(),
+				new DatabaseSchema(
+					Warns,
+					Bans,
+					new HistorySchema(
+						LoginList,
+						UsernameList,
+						AntiCheatFlags,
+						true // Considering the player just joined, set it true
+					)
 				)
-			)
-		);
+			);
+
+		} else {
+			// Past this point you should assume it's a new player.
+			LOGGER.info(entity.getEntityName() + " is a new player. Adding to database...");
+
+			PlayerDatabase.put(
+				entity.getUuid(),
+				new DatabaseSchema(
+					new ArrayList<>(),
+					new ArrayList<>(),
+					new HistorySchema(
+						new ArrayList<>(
+							List.of(
+								new LogginIPs(
+									((ServerPlayerEntity) entity).getIp(),
+									UnixTimestamp()
+								)
+							)
+						),
+						new ArrayList<>(
+							List.of(entity.getName().getString())
+						),
+						new ArrayList<>(),
+						true // Considering the player just joined, set it true
+					)
+				)
+			);
+		}
 	}
 
 	public static long UnixTimestamp() {

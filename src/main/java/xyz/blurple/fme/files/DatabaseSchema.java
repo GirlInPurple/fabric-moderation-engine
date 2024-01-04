@@ -1,6 +1,5 @@
 package xyz.blurple.fme.files;
 
-import java.net.InetAddress;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +13,10 @@ public class DatabaseSchema {
         this.Bans = bans;
         this.History = history;
     }
+
+    public List<OffenceSchema> getWarns() {return Warns;}
+    public List<OffenceSchema> getBans() {return Bans;}
+    public HistorySchema getHistory() {return History;}
 
     public static class OffenceSchema {
         UUID Caller;
@@ -35,6 +38,12 @@ public class DatabaseSchema {
 
             this.Resolved = resolved;
         }
+
+        public UUID getCaller() {return Caller;}
+        public String getReason() {return Reason;}
+        public long getDuration() {return Duration;}
+        public long getTimestamp() {return Timestamp;}
+        public boolean isResolved() {return Resolved;}
     }
 
     public static class HistorySchema {
@@ -43,24 +52,50 @@ public class DatabaseSchema {
         List<OffenceSchema> AntiCheatFlags;
         boolean IsOnline;
 
-        public HistorySchema(List<LogginIPs> IPs, List<String> usernames, List<OffenceSchema> antiCheatFlags) {
+        public HistorySchema(List<LogginIPs> IPs, List<String> usernames, List<OffenceSchema> antiCheatFlags, Boolean isOnline) {
             this.Logins = IPs;
             this.Username = usernames;
             this.AntiCheatFlags = antiCheatFlags;
-            this.IsOnline = false; // Assuming this is run as the server starts, this should always be false
+            this.IsOnline = isOnline;
         }
 
+        public List<LogginIPs> getLogins() {return Logins;}
+        public LogginIPs getMostRecentLogin() {
+            return getLogins().get(0);
+        }
+        public boolean doesLogginsContain(String ip) {
+            for (LogginIPs IPInstance : getLogins()) {
+                if (IPInstance.getIPAddress().contains(ip)) {return true;}
+            }
+            return false;
+        }
+        public List<String> getUsername() {return Username;}
+        public String getMostRecentUsername() {
+            return getUsername().get(0);
+        }
+        public boolean doesUsernamesContain(String name) {
+            for (String nameInstance : getUsername()) {
+                if (nameInstance.equals(name)) {return true;}
+            }
+            return false;
+        }
+        public List<OffenceSchema> getAntiCheatFlags() {return AntiCheatFlags;}
+        public boolean isOnline() {return IsOnline;}
+
         public static class LogginIPs {
-            InetAddress IPAddress;
+            String IPAddress;
             Long Timestamp;
 
             /**
              * Stores the first time this player has logged in from this IP address.
              * */
-            public LogginIPs(InetAddress IP, long Timestamp) {
+            public LogginIPs(String IP, long Timestamp) {
                 this.IPAddress = IP;
                 this.Timestamp = Timestamp;
             }
+
+            public String getIPAddress() {return IPAddress;}
+            public Long getTimestamp() {return Timestamp;}
         }
     }
 }

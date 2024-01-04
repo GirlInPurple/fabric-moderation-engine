@@ -5,19 +5,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import xyz.blurple.fme.files.DatabaseSchema.HistorySchema;
 import xyz.blurple.fme.files.DatabaseSchema.HistorySchema.LogginIPs;
 import xyz.blurple.fme.files.DatabaseSchema.OffenceSchema;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
+import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static java.net.InetAddress.getByName;
 import static xyz.blurple.fme.FMEInit.PlayerDatabase;
 import static xyz.blurple.fme.files.FileHandler.JSON.modifiedReadJSON;
 
@@ -25,15 +25,15 @@ public class DatabaseAccess {
 
     public static HashMap<UUID, DatabaseSchema> getPlayerDatabase() throws IOException {
         HashMap<UUID, DatabaseSchema> startupHashmap = new HashMap<>();
-        JsonArray DatabaseArray = modifiedReadJSON(Path.of("./config/FME/fme-db.json")).getAsJsonArray();
+        JsonObject DatabaseFile = modifiedReadJSON(Path.of("./config/FME/fme-db.json"));
 
-        for (JsonElement jsonElement : DatabaseArray) {
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
+        for (String UUIDKey : DatabaseFile.keySet()) {
+            JsonObject jsonObject = DatabaseFile.getAsJsonObject(UUIDKey);
 
-            UUID uuid = UUID.fromString(jsonObject.get("UUID").getAsString());
-            JsonArray warns = jsonObject.get("warns").getAsJsonArray();
-            JsonArray bans = jsonObject.get("bans").getAsJsonArray();
-            JsonObject history = jsonObject.get("history").getAsJsonObject();
+            JsonArray warns = jsonObject.get("Warns").getAsJsonArray();
+            JsonArray bans = jsonObject.get("Bans").getAsJsonArray();
+
+            JsonObject history = jsonObject.get("History").getAsJsonObject();
             JsonArray logins = history.get("Logins").getAsJsonArray();
             JsonArray username = history.get("Username").getAsJsonArray();
             JsonArray antiCheatFlags = history.get("AntiCheatFlags").getAsJsonArray();
@@ -41,17 +41,18 @@ public class DatabaseAccess {
             List<OffenceSchema> warnList = GenerateOffences(warns);
             List<OffenceSchema> banList = GenerateOffences(bans);
             HistorySchema historicalData = new HistorySchema(
-                    GenerateIpHistory(logins),
-                    GenerateUsernames(username),
-                    GenerateOffences(antiCheatFlags)
+                GenerateIpHistory(logins),
+                GenerateUsernames(username),
+                GenerateOffences(antiCheatFlags),
+                false
             );
 
             DatabaseSchema startupDatabase = new DatabaseSchema(
-                    warnList,
-                    banList,
-                    historicalData
+                warnList,
+                banList,
+                historicalData
             );
-            startupHashmap.put(uuid, startupDatabase);
+            startupHashmap.put(UUID.fromString(UUIDKey), startupDatabase);
         }
         return startupHashmap;
     }
@@ -82,12 +83,10 @@ public class DatabaseAccess {
         return outputList;
     }
 
-    private static List<LogginIPs> GenerateIpHistory(JsonArray inputArray) throws UnknownHostException {
-        List<LogginIPs> outputList = new ArrayList<>();
-        for (JsonElement inputList : inputArray) {
-            outputList.add(new LogginIPs(getByName(inputList.getAsJsonArray().get(0).getAsString()), inputList.getAsJsonArray().get(1).getAsLong()));
-        }
-        return outputList;
+    private static List<LogginIPs> GenerateIpHistory(JsonArray inputArray) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<LogginIPs>>(){}.getType();
+        return gson.fromJson(inputArray, type);
     }
 
     public static int WarnPlayer() {

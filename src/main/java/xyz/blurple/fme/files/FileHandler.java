@@ -101,18 +101,11 @@ public class FileHandler {
             }
         }
 
-        public static JsonArray modifiedReadJSON(Path path) throws IOException {
+        public static JsonObject modifiedReadJSON(Path path) throws IOException {
             String content = Files.readString(path);
             JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(content);
+            return (JsonObject) parser.parse(content);
 
-            if (element.isJsonObject()) {
-                JsonArray array = new JsonArray();
-                array.add(element);
-                return array;
-            } else {
-                return element.getAsJsonArray();
-            }
         }
 
         /**

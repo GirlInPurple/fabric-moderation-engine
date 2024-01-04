@@ -9,6 +9,7 @@ import xyz.blurple.fme.files.FileHandler.JSON;
 
 import java.nio.file.Path;
 
+import static xyz.blurple.fme.FMEInit.LOGGER;
 import static xyz.blurple.fme.FMEInit.ModConfigs;
 import static xyz.blurple.fme.files.DatabaseAccess.putPlayerDatabase;
 
@@ -19,6 +20,7 @@ public class MinecraftServerMixin {
      * */
     @Inject(at = @At("HEAD"), method = "save")
     private void saveMixin(boolean suppressLogs, boolean flush, boolean force, CallbackInfoReturnable<Boolean> cir) {
+        LOGGER.info("Saving Configs, Database, and Area files");
         JSON.writeJSON(ModConfigs, Path.of("./config/FME/fme-config.json"));
         JSON.writeJSON(putPlayerDatabase(), Path.of("./config/FME/fme-db.json"));
     }
