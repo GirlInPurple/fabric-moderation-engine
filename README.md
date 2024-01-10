@@ -33,7 +33,7 @@ First, you need to know the difference between these four things:
 - [ ] Post to Modrinth  <!-- You can now download the mod [here](https://modrinth.com/mod/fme) -->
   - [ ] Update checker (adds a Modrinth update notification on startup)
 - [ ] Incorporation with other mods
-  - [ ] Using [BlueMap](https://modrinth.com/plugin/bluemap)/[Dynmap®](https://modrinth.com/plugin/dynmap)/[squaremap](https://modrinth.com/plugin/squaremap) to whitelisted/blacklisted areas
+  - [ ] Using [BlueMap](https://modrinth.com/plugin/bluemap)/[Dynmap®](https://modrinth.com/plugin/dynmap)/[squaremap](https://modrinth.com/plugin/squaremap) to show whitelisted/blacklisted areas
   - [ ] [FLan](https://modrinth.com/mod/flan) for easier and more configs for certain areas
   - [ ] Any mod that adds a liquid ([Create](https://modrinth.com/mod/create)'s Honey and [Chocolate](https://www.curseforge.com/minecraft/mc-mods/create-confectionery) come to mind) will follow the same rules as water and lava entering a blacklisted area
   - [ ] [LuckPerms](https://luckperms.net/) support/integration for commands and ability for certain groups to place blocks inside blacklisted areas
