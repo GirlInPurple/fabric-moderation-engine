@@ -28,12 +28,12 @@ First, you need to know the difference between these four things:
 - Vantalisting is where you can't do anything at all, and it won't be logged if you try to (Named after the color [Vantablack](https://en.wikipedia.org/wiki/Vantablack)).
 
 ## Roadmap
-**We are no longer taking feature requests, this is already alot to program considering we are a 2-person team. If you suggest features they will not be added until all of the features below have been added first.**
-- [ ] Finish README.md, CONTRIBUTING.md, and DOCS.md
-- [ ] Post to Modrinth
+**We are no longer taking feature requests, this is already alot to program considering we are a 2-person team. You can suggest features [here](https://github.com/GirlInPurple/fabric-moderation-engine/issues/new?template=feature_request.yml), although they will not be added until all of the features below have been added first.**
+- [ ] Finish README.md, [CONTRIBUTING.md](./.github/CONTRIBUTING.md), and [DOCS.md](./DOCS.md)
+- [ ] Post to Modrinth  <!-- You can now download the mod [here](https://modrinth.com/mod/fme) -->
   - [ ] Update checker (adds a Modrinth update notification on startup)
 - [ ] Incorporation with other mods
-  - [ ] [Bluemap](https://modrinth.com/plugin/bluemap)/[Dynmap](https://modrinth.com/plugin/dynmap)/[Squaremap](https://modrinth.com/plugin/squaremap) for showing whitelisted/blacklisted areas
+  - [ ] Using [BlueMap](https://modrinth.com/plugin/bluemap)/[Dynmap®](https://modrinth.com/plugin/dynmap)/[squaremap](https://modrinth.com/plugin/squaremap) to whitelisted/blacklisted areas
   - [ ] [FLan](https://modrinth.com/mod/flan) for easier and more configs for certain areas
   - [ ] Any mod that adds a liquid ([Create](https://modrinth.com/mod/create)'s Honey and [Chocolate](https://www.curseforge.com/minecraft/mc-mods/create-confectionery) come to mind) will follow the same rules as water and lava entering a blacklisted area
   - [ ] [LuckPerms](https://luckperms.net/) support/integration for commands and ability for certain groups to place blocks inside blacklisted areas
@@ -54,16 +54,16 @@ First, you need to know the difference between these four things:
   - [ ] Add a whitelist system for the items above to be used in certain places (TNT based farms, beds for netherite mining, respawn anchors in the nether, etc.)
   - [ ] Liquids won't flow or interact with other things within certain areas
 - [ ] Anti-Cheat (complex)
-  - [ ] Better "Flying is not enabled on this server." checks
-  - [ ] Simple packet exploit patches
+  - [ ] Better vanilla fly-prevention checks
+  - [ ] Simple packet exploit patches (packet limiter, crash packet blocker, etc.)
   - [ ] Strict caps for entity speed (including velocity/acceleration), and forces boats to fall to the floor
   - [ ] Mining speed and Kill Aura detection
   - [ ] (An attempt at) Preventing Auto-Totem
 - [ ] Add highly customizable configs for everything mentioned above.
-- [ ] Datapack support for certain events, like if a player is warned or if a hack was detected
+- [ ] Datapack support for certain events, like if a player is warned or if a cheat was detected
 
 ### Future Features
-**Newly suggested features will go here. Probably not now.**
+**Newly suggested features will go here. ~~Probably not in the foreseeable future :).~~**
 
 ## Contributing
 
