@@ -77,4 +77,5 @@ Thank you to the following:
 - [The EssentialsX Team](https://essentialsx.net/) for some code (GPLv3) and ideas, you can think of this mod as a partial port of their suite
 - [falseresync](https://modrinth.com/user/falseresync) for creating [Ban Trigger](https://modrinth.com/mod/ban-trigger)
 - [flemmli97](https://modrinth.com/user/flemmli97) for creating [FLan](https://modrinth.com/mod/flan)
+<!-- - [QuendoDev](https://github.com/QuendoDev) for creating [QStaffMode](https://github.com/QuendoDev/QStaffMode) -->
 - [DogLoverPink's Minecraft Error Ban](https://github.com/DogLoverPink/Minecraft-Error-Ban) plugin and [Goteusz Maszyk's Client Crasher](https://github.com/goteusz-maszyk/ClientCrasher-Fabric) mod, as `ban` and `tempban`'s "method" argument is based off these two projects
