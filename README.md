@@ -1,7 +1,7 @@
 # Fabric Moderation Engine
 
-<a href="https://discord.gg/aNjm3b6eYJ"><img src="https://img.shields.io/discord/969376256640569474?logo=discord&label=development%20server></a>
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/GirlInPurple/fabric-moderation-engine/build.yml)
+<a href="https://discord.gg/aNjm3b6eYJ"><img src="https://img.shields.io/discord/969376256640569474?logo=discord&label=development%20server"></a>
+<img src="https://img.shields.io/github/actions/workflow/status/GirlInPurple/fabric-moderation-engine/build.yml">
 
 
 ## Why?
