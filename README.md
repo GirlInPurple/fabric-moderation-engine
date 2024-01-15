@@ -53,7 +53,7 @@ First, you need to know the difference between these four things:
     - [ ] `whois history`; gives historical data about the player, like IP, last played, first joined, etc.
   - [ ] `jail`; Teleports the player to a set place, restricting certain actions (e.g. build, opening chests, etc.)
   - [ ] `freeze`; Completely freezes the player (movements, inventory interactions, etc.), good for trolling flyhackers :)
-  - [ ] `admincall`; Undocumented *[please add]*
+  - [x] `admincall`; Undocumented
 - [ ] Anti-Grief
   - [ ] Options to completely disable explosives and Lava Buckets
   - [ ] Add a whitelist system for the items above to be used in certain places (TNT based farms, beds for netherite mining, respawn anchors in the nether, etc.)
