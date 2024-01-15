@@ -1,5 +1,9 @@
 # Fabric Moderation Engine
 
+![Discord](https://img.shields.io/discord/969376256640569474?logo=discord&label=development%20server&link=discord.gg%2F2PxCfY9jRd)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/GirlInPurple/fabric-moderation-engine/build.yml)
+
+
 ## Why?
 There aren't any good anti-cheats or moderation tools for Fabric servers, so I decided to create one myself.\
 This mod is meant to work on barely modded and heavily modded server just about the same, although same features may be restricted to one or the other.\
